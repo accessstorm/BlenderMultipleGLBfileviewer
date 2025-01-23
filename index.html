@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extraordinary Card Model Example</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+            overflow-x: hidden;
+             background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+             background-position: center; /* Center the background image */
+           transition: background-color 0.3s ease;
+        }
+
+       body::before {
+             content: '';
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(0, 0, 0, 0.4); /* Semi-transparent black overlay */
+            z-index: -1; /* Place overlay behind other elements */
+        }
+        /* Navbar */
+        .navbar {
+           display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center;
+            padding: 20px;
+             background-color: rgba(51, 51, 51, 0.2); /* Translucent */
+             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+            color: #fff;
+            font-size: 28px; /* Larger font size */
+            text-transform: uppercase; /* Make the text uppercase */
+            letter-spacing: 2px; /* Add spacing between letters */
+             font-weight: bold;
+        }
+
+        /* Card Container */
+       .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            max-width: 1400px;
+            margin: 20px auto;
+             padding: 20px;
+
+        }
+
+        /* Card styling */
+        .card {
+           background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 400px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+             display: flex;
+             flex-direction: column;
+        }
+
+        .card:hover {
+             transform: translateY(-5px);
+           box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .card .info-bar {
+             position: absolute;
+             bottom: 0;
+            width:100%;
+             background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+           padding: 10px 15px;
+           box-sizing: border-box;
+            text-align: center;
+            font-size: 16px;
+             text-shadow: 1px 1px 2px #000;
+            transition: background-color 0.3s ease;
+        }
+
+       .card .info-bar:hover{
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .card canvas {
+           display: block;
+            width: 100%;
+            height: 100%;
+          transition: opacity 0.5s ease;
+        }
+
+        .card.loading canvas {
+           opacity: 0.2;
+        }
+
+         #loader {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2em;
+             text-shadow: 1px 1px 2px #000;
+            display: none;
+        }
+
+         /* GitHub Icon */
+        .github-link {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 24px;
+           color: white;
+           text-decoration: none;
+            transition: color 0.3s ease;
+             z-index: 10;
+        }
+
+       .github-link:hover{
+         color: #aaa;
+       }
+
+        /* Footer */
+       .footer {
+          background-color: rgba(0, 0, 0, 0.9); /* Dark footer background */
+            padding: 20px;
+            text-align: center;
+            margin-top: 50px; /* Add margin to separate from cards */
+             border-top: 1px solid rgba(255, 255, 255, 0.1); /* Light border */
+        }
+
+        .footer p {
+           margin: 0 0 10px;
+            font-size: 16px;
+             letter-spacing: 1px;
+         }
+
+         .social-links {
+            display: flex;
+           justify-content: center;
+            align-items: center;
+             gap: 20px;
+        }
+
+
+       .social-links a {
+          color: white;
+            text-decoration: none; /* Remove underlines from links */
+            font-size: 24px; /* Adjust icon size */
+           transition: color 0.3s ease; /* Add transition for icon color */
+         }
+
+         .social-links a:hover {
+           color: #aaa; /* Change icon color on hover */
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                 flex: 1 0 calc(100% - 20px);
+           }
+        }
+    </style>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        3D Model Viewer
+    </div>
+
+    <!-- Card Container -->
+    <div class="card-container">
+        <div class="card" data-model="./highmonkeyy.glb" data-info="A high-poly model of a monkey" data-github="https://github.com/accessstorm/Blender-3d">
+        </div>
+        <div class="card" data-model="./donut.glb" data-info="A low-poly model of a monkey" data-github="https://github.com/yourgithub/lowmonkeyy-repo">
+        </div>
+       <div class="card" data-model="./3dlogoaurora.glb" data-info="The classic Blender monkey model" data-github="https://github.com/yourgithub/suzanne-repo">
+       </div>
+       <div class="card" data-model="./Sketchfab_2023_03_29_22_02_26.glb" data-info="A high-poly model of a monkey" data-github="https://github.com/yourgithub/highmonkeyy-repo">
+        </div>
+        <div class="card" data-model="./pawn.glb" data-info="A low-poly model of a monkey" data-github="https://github.com/yourgithub/lowmonkeyy-repo">
+        </div>
+       <div class="card" data-model="./suzanne.glb" data-info="The classic Blender monkey model" data-github="https://github.com/yourgithub/suzanne-repo">
+       </div>
+    </div>
+    <!-- Footer -->
+    <footer class="footer">
+       <p>Made by your name</p>
+        <div class="social-links">
+            <a href="https://github.com/accessstorm/" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://linkedin.com/in/yourlinkedin" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.110.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.110.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+        const cards = document.querySelectorAll('.card');
+        let activeScenes = {};
+        let activeRenderers = {};
+
+         const loadGLTF = (container, modelPath, infoText, githubLink) => {
+              container.classList.add('loading');
+             const loader = document.createElement('div');
+            loader.id = 'loader';
+            loader.innerText = 'Loading...';
+             container.appendChild(loader)
+            loader.style.display = 'block';
+
+            // Clear any previous content or scene
+             const containerId = container.getAttribute('data-id');
+             if (activeScenes[containerId]) {
+                  activeScenes[containerId].traverse(node => {
+                        if (node instanceof THREE.Mesh || node instanceof THREE.Line) {
+                            node.geometry.dispose();
+                            if (node.material.map) node.material.map.dispose();
+                            if (node.material.lightMap) node.material.lightMap.dispose();
+                            if (node.material.normalMap) node.material.normalMap.dispose();
+                           if (node.material.bumpMap) node.material.bumpMap.dispose();
+                            if (node.material.specularMap) node.material.specularMap.dispose();
+                           node.material.dispose();
+                        }
+                    });
+
+                activeScenes[containerId] = null;
+                activeRenderers[containerId].dispose();
+                 activeRenderers[containerId] = null;
+                container.innerHTML = '';
+                  container.appendChild(loader)
+            }
+
+            // Scene, Camera, Renderer
+           const scene = new THREE.Scene();
+           const camera = new THREE.PerspectiveCamera(75, container.offsetWidth / container.offsetHeight, 0.1, 1000);
+           const renderer = new THREE.WebGLRenderer({ antialias: true });
+           renderer.setSize(container.offsetWidth, container.offsetHeight);
+          container.appendChild(renderer.domElement);
+
+            // Lighting
+             const light = new THREE.DirectionalLight(0xffffff, 1);
+             light.position.set(5, 10, 7.5).normalize();
+             scene.add(light);
+
+           // Load the GLTF model
+             const modelLoader = new THREE.GLTFLoader();
+             modelLoader.load(
+               modelPath,
+                 (gltf) => {
+                     const model = gltf.scene;
+                     scene.add(model);
+
+                   // Rotate the model
+                     const animateModel = () => {
+                        model.rotation.y += 0.01;
+                    }
+
+                   // Animation loop
+                    const animate = () => {
+                       if(!activeRenderers[containerId]) return;
+                       requestAnimationFrame(animate);
+                        animateModel();
+                        renderer.render(scene, camera);
+                    };
+                    activeScenes[containerId] = scene;
+                   activeRenderers[containerId] = renderer;
+                   animate();
+                       container.classList.remove('loading');
+                    loader.style.display = 'none'; // Hide loader
+
+                },
+               (xhr) => {
+                    console.log(`Loading progress: ${(xhr.loaded / xhr.total) * 100}%`);
+                },
+                 (error) => {
+                     container.classList.remove('loading');
+                    loader.style.display = 'none'; // Hide loader
+                   console.error('Error loading model:', error);
+                   // Show user friendly error message
+                 }
+            );
+
+            // OrbitControls for interaction
+          const controls = new THREE.OrbitControls(camera, renderer.domElement);
+           camera.position.set(0, 1, 5);
+           controls.update();
+
+            // Resize listener
+          window.addEventListener('resize', () => {
+                camera.aspect = container.offsetWidth / container.offsetHeight;
+                camera.updateProjectionMatrix();
+                 renderer.setSize(container.offsetWidth, container.offsetHeight);
+            });
+
+             // Create and append info bar
+            const infoBar = document.createElement('div');
+            infoBar.classList.add('info-bar');
+            infoBar.innerText = infoText;
+           container.appendChild(infoBar);
+
+
+             // Add the github link
+              const githubIcon = document.createElement('a');
+              githubIcon.href = githubLink;
+              githubIcon.target = '_blank';
+             githubIcon.classList.add('github-link');
+             githubIcon.innerHTML = '<i class="fab fa-github"></i>';
+             container.appendChild(githubIcon);
+
+
+          };
+           let cardCounter = 0;
+            cards.forEach((card, index) => {
+               card.setAttribute('data-id', cardCounter++);
+                const modelPath = card.getAttribute('data-model');
+                const infoText = card.getAttribute('data-info');
+               const githubLink = card.getAttribute('data-github')
+                loadGLTF(card, modelPath, infoText, githubLink); // Load the model into each card
+           });
+
+         // Get the background image element
+         const backgroundImageElement = document.createElement('img');
+          backgroundImageElement.src = 'https://4kwallpapers.com/images/walls/thumbs_3t/18353.jpg'; // Replace with your image URL
+           backgroundImageElement.style.position = 'fixed';
+           backgroundImageElement.style.top = '0';
+           backgroundImageElement.style.left = '0';
+          backgroundImageElement.style.width = '100%';
+            backgroundImageElement.style.height = '100%';
+            backgroundImageElement.style.objectFit = 'cover';
+            backgroundImageElement.style.zIndex = '-2';
+            document.body.appendChild(backgroundImageElement);
+    </script>
+</body>
+</html>
